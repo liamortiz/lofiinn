@@ -3,6 +3,7 @@ import {Route, Switch} from 'react-router-dom';
 import HomePage from './components/home/Home';
 import Header from './components/common/Header';
 import PageNotFound from './components/PageNotFound';
+import Article from './components/article/Article';
 
 const App = () => {
   return (
@@ -10,6 +11,7 @@ const App = () => {
       <Header/>
       <Switch>
         <Route exact path="/" component={HomePage}/>
+        <Route path="/articles" component={Article}/>
         <Route component={PageNotFound}/>
       </Switch>
     </div>
