@@ -1,10 +1,11 @@
 import {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
+import ChatContainer from '../chat/ChatContainer';
 import './style.scss';
 
 const Home = () => (
-        <div id="home-wrapper">
-            <h1>Home Page</h1>
+        <div data-testid="home-wrapper" id="home-wrapper">
+            <ChatContainer/>
         </div>
 );
 export default Home;
