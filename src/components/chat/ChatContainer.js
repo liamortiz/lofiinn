@@ -1,17 +1,26 @@
 import ChatMessage from './ChatMessage';
 import ChatForm from './ChatForm';
-
+import { useState } from 'react';
 import './style.scss';
 
 const ChatContainer = () => {
+
+    const [messages, setMessages] = useState([]);
+
+    function addMessage(message) {
+        if (message.length > 1) {
+            setMessages([...messages, message])
+        }
+    }
     return (
         <div id="chat-wrapper">
             <div id="chat-container">
-                <ChatMessage/>
-                <ChatMessage/>
-                <ChatMessage/>
+                {
+                    messages.map((message, index) => 
+                    <ChatMessage key={`message-id-${index}`} message={message}/>)
+                }
             </div>
-            <ChatForm/>
+            <ChatForm addMessage={addMessage}/>
         </div>
     )
 }

@@ -8,7 +8,6 @@ import Article from './components/article/Article';
 const App = () => {
   return (
     <div className="App">
-      <Header/>
       <Switch>
         <Route exact path="/" component={HomePage}/>
         <Route path="/articles" component={Article}/>

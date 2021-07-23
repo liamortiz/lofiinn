@@ -1,10 +1,19 @@
-const ChatForm = () => {
+import { useState } from "react";
+import PropTypes from 'prop-types';
 
-    function handleChange() {
+const ChatForm = (props) => {
 
+    const [message, setMessage] = useState("");
+
+    function handleChange(event) {
+        setMessage(event.target.value);
     }
-    function handleSubmit() {
-        
+    function handleSubmit(event) {
+        event.preventDefault();
+        props.addMessage(message);
+
+        event.target.reset();
+        setMessage("");
     }
 
     return (
@@ -15,4 +24,9 @@ const ChatForm = () => {
         </form>
     )
 }
+
+ChatForm.propTypes = {
+    addMessage: PropTypes.func.isRequired
+}
+
 export default ChatForm;
