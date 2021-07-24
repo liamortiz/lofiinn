@@ -1,6 +1,4 @@
-$name-color: #494949;
-$main-font: 'Helvetica';
-$main-color: #B63831;
+@import '../../utilities.scss';
 
 @keyframes fadein {
     from {
@@ -128,7 +126,7 @@ $main-color: #B63831;
     }
     #feature-tab {
         padding: 0 1em;
-        margin-top: 2em;
+        margin-top: 1.5em;
         position: relative;
         span {
             margin-right: 1em;

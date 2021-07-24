@@ -3,7 +3,7 @@ import ChatForm from './ChatForm';
 import { useState, useRef, useEffect } from 'react';
 import roboIcon from '../../assets/robotic.svg';
 
-import './style.scss';
+import './_chat.scss';
 
 const Robo = {
     username: "LofiInn Bot",
@@ -19,7 +19,7 @@ const ChatContainer = () => {
     useEffect(() => {
         if (chatWrapper.current) {
             const windowHeight = window.innerHeight;
-            chatWrapper.current.style=`height: ${windowHeight}px`
+            chatWrapper.current.style=`height: ${windowHeight-45}px`
         }
     }, []);
 

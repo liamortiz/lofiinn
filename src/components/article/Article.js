@@ -1,5 +1,4 @@
 import {useState} from 'react';
-import './style.scss';
 import {connect} from 'react-redux';
 import * as articleActions from '../../redux/actions/articleActions';
 import PropTypes from 'prop-types';
