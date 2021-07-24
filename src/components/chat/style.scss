@@ -2,6 +2,15 @@ $name-color: #494949;
 $main-font: 'Helvetica';
 $main-color: #B63831;
 
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
 #chat-wrapper {
     width: 350px;
     background-color: white;
@@ -52,6 +61,10 @@ $main-color: #B63831;
             word-break: break-word;
             overflow-wrap: break-word;
             display: flex;
+            opacity: 0;
+            animation-name: fadein;
+            animation-fill-mode: forwards;
+            animation-duration: .5s;
             p {
                 display: inline;
                 margin: 0;
@@ -86,7 +99,7 @@ $main-color: #B63831;
             border: 1px solid gray;
             box-sizing: border-box;
             width: 90%;
-            height: 30px;
+            height: auto;
             padding: .5em;
             border: 1px solid rgb(221, 221, 221);
             resize: none;
@@ -125,19 +138,25 @@ $main-color: #B63831;
         img {
             width: 25px;
             height: 25px;
-            margin: 0 .5em;
+            margin: 0 1em;
         }
         #send-section {
             float: right;
         }
     }
-    #emoji-picker {
-        border: 1px solid red;
-        position: absolute;
-    }
-
+    
     #picker-toggler {
+        display: inline-block;
+        width: 25px;
+        height: 25px;
+        background-image: url('../../assets/smiling.svg');
+        opacity: 0.8;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        margin-left: .2em;
         &:hover {
+            opacity: 1;
             cursor: pointer;
         }
     }

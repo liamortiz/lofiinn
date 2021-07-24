@@ -1,7 +1,6 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import PropTypes from 'prop-types';
-import emojiIcon from '../../assets/chat-emoji.svg';
-import gifIcon from '../../assets/chat-gif.svg';
+import gifIcon from '../../assets/gif.svg';
 import defaultAvatar from '../../assets/default-avatar.svg';
 import Picker from 'emoji-picker-react';
 
@@ -18,6 +17,22 @@ const ChatForm = (props) => {
     const [showPicker, setShowPicker] = useState(false);
     const maxCharacters = 200;
     const textArea = useRef(null);
+    const textForm = useRef(null);
+
+
+    useEffect(() => {
+        const textAreaElement = textArea.current;
+        const listener = event => {
+          if (event.code === "Enter" || event.code === "NumpadEnter") {
+            event.preventDefault();
+            textForm.current.requestSubmit();
+          }
+        };
+        textAreaElement.addEventListener("keydown", listener);
+        return () => {
+            textAreaElement.removeEventListener("keydown", listener);
+        };
+    }, []);
 
     function handleChange(event, emojiObject=null) {
         if (message.length + 1 > maxCharacters) {
@@ -36,12 +51,18 @@ const ChatForm = (props) => {
     }
     function handleSubmit(event) {
         event.preventDefault();
+
+        if (message.length <= 0) return;
+
         props.addMessage({username: "Anonymous", message});
 
         event.target.reset();
+
         setMessage("");
         setCharacters(0);
         setShowPicker(false);
+
+        textArea.current.focus();
     }
     return (
         <>
@@ -50,13 +71,14 @@ const ChatForm = (props) => {
             <img src={defaultAvatar}/>
             <h6 className="user-name">Anonymous</h6>
         </div>
-        <form id="message-form" onSubmit={handleSubmit}>
+        <form id="message-form" onSubmit={handleSubmit} ref={textForm}>
             <textarea 
             placeholder="Say Something.." 
             name="message" 
             onChange={handleChange} 
             ref={textArea}
-            maxLength="200">
+            maxLength="200"
+            onClick={() => setShowPicker(false)}>
             </textarea>
             
             <div id="feature-tab">
@@ -64,8 +86,8 @@ const ChatForm = (props) => {
             {showPicker && 
                 <Picker onEmojiClick={handleChange} pickerStyle={pickerStyle}/>
             }
-            <img id="picker-toggler" src={emojiIcon} onClick={() => setShowPicker(!showPicker)}/>
-            <img src={gifIcon}/>
+            <div id="picker-toggler" onClick={() => setShowPicker(!showPicker)}></div>
+            <img className="gif-button" src={gifIcon} alt=""/>
 
             <div id="send-section">
                 <span>{characters}/{maxCharacters}</span>

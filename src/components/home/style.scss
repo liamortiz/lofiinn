@@ -4,6 +4,10 @@ body {
     padding: 0;
 }
 
+.App {
+    display: flex;
+}
+
 .divider {
     border-bottom: 1px solid rgb(216, 216, 216);
     width: 70%;
