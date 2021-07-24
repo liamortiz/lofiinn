@@ -1,18 +1,26 @@
 import PropTypes from 'prop-types';
+import defaultAvatar from '../../assets/default-avatar.svg';
 
 const ChatMessage = (props) => {
     return (
         <div id="chat-message">
-            <img src="https://funny-photo.s3.amazonaws.com/preview/navi_avatar/smiling-girl-blue-face-effect.jpg"/>
-            <h6 className="user-name">John Julies</h6>
-            
-            <p className="user-message">{props.message}</p>
+            <div id="chat-avatar">
+            <img alt="avatar" src={props.messageBody.icon || defaultAvatar}/>
+            </div>
+            <div id="message-details">
+                <h6 className="user-name">{props.messageBody.username}</h6>
+                <p className="user-message">{props.messageBody.message}</p>
+            </div>
         </div>
     )
 }
 
 ChatMessage.propTypes = {
-    message: PropTypes.string.isRequired
+    messageBody: PropTypes.exact({
+        username: PropTypes.string.isRequired,
+        message: PropTypes.string.isRequired,
+        icon: PropTypes.string
+    })
 }
 
 export default ChatMessage;

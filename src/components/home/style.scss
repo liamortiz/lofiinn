@@ -3,6 +3,19 @@ body {
     margin: 0;
     padding: 0;
 }
+
+.divider {
+    border-bottom: 1px solid rgb(216, 216, 216);
+    width: 70%;
+    margin: 0 auto;
+}
+
+.btn {
+    display: block;
+    border: none;
+    padding: .5em;
+}
+
 #home-wrapper {
     padding: 0;
     margin: 0;
