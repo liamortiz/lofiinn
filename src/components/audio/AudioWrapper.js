@@ -45,6 +45,10 @@ const AudioWrapper = (props) => {
             </div>
             <div id="center-audio-controls">
                 <p id="track-time">0:00</p>
+                <div id="progress-wrapper">
+                    <div id="playback-progress"></div>
+                </div>
+                <p id="track-duration">0:00</p>
             </div>
             <div id="right-audio-controls">
                 <button className="btn" id="skip-left-btn" onClick={previousTrack}></button>

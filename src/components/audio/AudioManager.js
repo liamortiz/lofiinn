@@ -25,8 +25,10 @@ class AudioManager {
     }
     timeTrackCallback(event) {
         const duration = event.target.currentTime;
-        const currTime = this.formatTime(duration);
-        document.getElementById('track-time').innerText=currTime;
+        const maxDuration = event.target.duration;
+
+        document.getElementById('track-time').innerText=this.formatTime(duration);
+        document.getElementById('track-duration').innerText=this.formatTime(maxDuration);
     }
 
     formatTime(duration) {   
