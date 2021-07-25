@@ -10,11 +10,14 @@ import AudioManager from './components/audio/AudioManager';
 
 import kudasai from './assets/kudasai-wheniseeyou.mp3';
 import kudasai_thegirl from './assets/kudasai-thegirl.mp3';
+import fleetwood from './assets/fleetwoodmac-dreams.mp3';
 
 const App = () => {
   const tracks = [
     {name: "When I see you", artist: "kudasai", album: "custom1", fileName: kudasai},
-    {name: "The Girl", artist: "kudasai", album: "custom1", fileName: kudasai_thegirl}];
+    {name: "The Girl", artist: "kudasai", album: "custom1", fileName: kudasai_thegirl},
+    {name: "Dreams", artist: "FleetWood Mac", album: "custom1", fileName: fleetwood}
+    ];
 
   const audioManager = new AudioManager();
   audioManager.addNewPlaylist('default', tracks);

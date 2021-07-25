@@ -17,16 +17,14 @@ export default class Playlist {
      * @param {string} direction 
      */
      skip(direction) {
-        this.pause();
-        this.currentTrack.currentTime=0;
-        
         if (direction==='right') this.currentTrackIndex++;
         if (direction==='left') this.currentTrackIndex--;
 
         if (this.currentTrackIndex >= this.tracks.length || this.currentTrackIndex < 0) {
             this.currentTrackIndex = 0;
         }
-        
+        this.currentTrack.currentTime=0;
+        this.pause();
         this.updateCurrentTrack();
         this.play();
     }

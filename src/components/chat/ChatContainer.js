@@ -21,7 +21,13 @@ const ChatContainer = () => {
             const windowHeight = window.innerHeight;
             chatWrapper.current.style=`height: ${windowHeight-45}px`
         }
+        window.onresize = updateChatWindowSize;
     }, []);
+
+    function updateChatWindowSize() {
+        const windowHeight = window.innerHeight;
+        chatWrapper.current.style=`height: ${windowHeight-45}px`
+    }
 
     function addMessage(message) {
         setMessages([...messages, message])

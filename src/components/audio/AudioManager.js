@@ -24,11 +24,15 @@ class AudioManager {
         }
     }
     timeTrackCallback(event) {
-        const duration = event.target.currentTime;
-        const maxDuration = event.target.duration;
+        const currentTime = event.target.currentTime;
+        const duration = event.target.duration;
 
-        document.getElementById('track-time').innerText=this.formatTime(duration);
-        document.getElementById('track-duration').innerText=this.formatTime(maxDuration);
+        document.getElementById('track-time').innerText=this.formatTime(currentTime);
+        document.getElementById('track-duration').innerText=this.formatTime(duration);
+
+        const ballPosition = (currentTime / duration) * 100
+        const progressBall = document.getElementById('progress-ball');
+        progressBall.style.left=`${ballPosition - 2}%`;
     }
 
     formatTime(duration) {   

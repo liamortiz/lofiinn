@@ -17,19 +17,15 @@ const AudioWrapper = (props) => {
         } else {
             audioManager.playTrack();
         }
-        playButton.current.classList.toggle('pause-button');
-        playButton.current.classList.toggle('play-button');
         setIsPlaying(!isPlaying);
     }
 
-    function previousTrack() {
-        audioManager.previousTrack();
-        const details = audioManager.getCurrentTrackDetails();
-        setTrackDetails(details);
+    function skipTrack(direction) {
+        if (!isPlaying) setIsPlaying(true);
 
-    }
-    function nextTrack() {
-        audioManager.nextTrack();
+        if (direction==='left') audioManager.previousTrack();
+        if (direction==='right') audioManager.nextTrack();
+
         const details = audioManager.getCurrentTrackDetails();
         setTrackDetails(details);
     }
@@ -44,16 +40,27 @@ const AudioWrapper = (props) => {
                 </div>
             </div>
             <div id="center-audio-controls">
-                <p id="track-time">0:00</p>
-                <div id="progress-wrapper">
-                    <div id="playback-progress"></div>
+                <button id="like-track" className="btn"></button>
+                <button id="volume-button" className="btn"></button>
+                <div id="middle-controls">
+                    <p id="track-time">0:00</p>
+                    <div id="progress-wrapper">
+                        <div id="playback-progress">
+                            <div id="progress-ball"></div>
+                        </div>
+                    </div>
+                    <p id="track-duration">0:00</p>
                 </div>
-                <p id="track-duration">0:00</p>
             </div>
             <div id="right-audio-controls">
-                <button className="btn" id="skip-left-btn" onClick={previousTrack}></button>
-                <button ref={playButton} className="btn play-button" onClick={togglePlayTrack}></button>
-                <button className="btn" id="skip-right-btn" onClick={nextTrack}></button>
+                <button className="btn" id="skip-left-btn" onClick={() => skipTrack('left')}></button>
+                <button 
+                ref={playButton} 
+                className={`btn ${isPlaying ? 'pause-button' : 'play-button'}`}
+                onClick={togglePlayTrack}
+                >
+                </button>
+                <button className="btn" id="skip-right-btn" onClick={() => skipTrack('right')}></button>
             </div>
         </div>
     )
