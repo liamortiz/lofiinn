@@ -19,14 +19,14 @@ const ChatContainer = () => {
     useEffect(() => {
         if (chatWrapper.current) {
             const windowHeight = window.innerHeight;
-            chatWrapper.current.style=`height: ${windowHeight-45}px`
+            chatWrapper.current.style=`height: ${windowHeight-117}px`
         }
         window.onresize = updateChatWindowSize;
     }, []);
 
     function updateChatWindowSize() {
         const windowHeight = window.innerHeight;
-        chatWrapper.current.style=`height: ${windowHeight-45}px`
+        chatWrapper.current.style=`height: ${windowHeight-120}px`
     }
 
     function addMessage(message) {
