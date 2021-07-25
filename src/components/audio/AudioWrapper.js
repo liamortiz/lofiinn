@@ -1,24 +1,13 @@
 import './_audio.scss';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 import tempAlbumCover from '../../assets/lofi-girl.jpg';
+import PropTypes from 'prop-types';
 
-import kudasai from '../../assets/kudasai-wheniseeyou.mp3';
-import kudasai_thegirl from '../../assets/kudasai-thegirl.mp3';
-import AudioManager from './AudioManager';
-import Playlist from './Playlist';
-import Bar from './Bar';
+const AudioWrapper = (props) => {
 
-const tracks = [
-    {name: "When I see you", artist: "kudasai", album: "custom1", fileName: kudasai},
-    {name: "The Girl", artist: "kudasai", album: "custom1", fileName: kudasai_thegirl}
-];
-const playlist = new Playlist("default", tracks);
-const audioManager = new AudioManager(playlist);
-
-const AudioBar = () => {
-
+    const audioManager = props.AudioManager;
     const [isPlaying, setIsPlaying] = useState(false);
-    const [trackDetails, setTrackDetails] = useState(tracks[0]);
+    const [trackDetails, setTrackDetails] = useState(audioManager.getCurrentTrackDetails());
 
     const playButton = useRef(null);
 
@@ -35,14 +24,12 @@ const AudioBar = () => {
 
     function previousTrack() {
         audioManager.previousTrack();
-
         const details = audioManager.getCurrentTrackDetails();
         setTrackDetails(details);
 
     }
     function nextTrack() {
         audioManager.nextTrack();
-
         const details = audioManager.getCurrentTrackDetails();
         setTrackDetails(details);
     }
@@ -57,7 +44,7 @@ const AudioBar = () => {
                 </div>
             </div>
             <div id="center-audio-controls">
-                <Bar duration={100} curTime={0} onTimeUpdate={0}/>
+                <p id="track-time">0:00</p>
             </div>
             <div id="right-audio-controls">
                 <button className="btn" id="skip-left-btn" onClick={previousTrack}></button>
@@ -67,4 +54,9 @@ const AudioBar = () => {
         </div>
     )
 }
-export default AudioBar;
+
+AudioWrapper.propTypes = {
+    AudioManager: PropTypes.object.isRequired
+}
+
+export default AudioWrapper;
