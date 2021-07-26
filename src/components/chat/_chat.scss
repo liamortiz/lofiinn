@@ -10,10 +10,15 @@
 }
 
 #chat-wrapper {
-    width: 350px;
+    max-width: 350px;
+    min-width: 300px;
     background-color: white;
     float: right;
     font-family: $main-font;
+    height: 100%;
+    padding-bottom: 1em;
+    position: fixed;
+    right: 0;
     .user-name {
         margin: 0;
         margin-right: .5em;
@@ -48,12 +53,12 @@
     }
     #chat-container {
         width: 100%;
-        height: 70%;
+        height: 100%;
         padding: 0 1em;
         box-sizing: border-box;
         overflow-y: auto;
         #chat-message {
-            width: 300px;
+            width: 100%;
             font-family: $main-font;
             margin: 1em 0;
             text-align: left;
@@ -89,16 +94,19 @@
         }
     }
 
+    #chat-form-wrapper {
+        min-height: 200px;
+    }
+
     #message-form {
         display: block;
-        height: 30px;
         textarea {
             display: block;
             margin: 0 auto;
             border: 1px solid gray;
             box-sizing: border-box;
             width: 90%;
-            height: auto;
+           
             padding: .5em;
             border: 1px solid rgb(221, 221, 221);
             resize: none;

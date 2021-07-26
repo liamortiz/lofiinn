@@ -27,6 +27,8 @@
     font-size: 95%;
     border-top: 1px solid rgb(216, 216, 216);
     box-sizing: border-box;
+    position: fixed;
+    bottom: 0;
     
     #track-details {
         flex: 1;

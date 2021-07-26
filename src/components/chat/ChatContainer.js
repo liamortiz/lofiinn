@@ -13,31 +13,33 @@ const Robo = {
 
 const ChatContainer = () => {
 
-    const chatWrapper = useRef(null);
+    const chatContainerElement = useRef(null);
     const [messages, setMessages] = useState([Robo]);
 
     useEffect(() => {
-        if (chatWrapper.current) {
-            const windowHeight = window.innerHeight;
-            chatWrapper.current.style=`height: ${windowHeight-117}px`
+        const windowHeight = window.innerHeight;
+        chatContainerElement.current.style=`height: ${windowHeight-372}px`;
+        window.onresize=handleWindowResize;
+
+        return () => {
+            window.onresize=null;
         }
-        window.onresize = updateChatWindowSize;
     }, []);
 
-    function updateChatWindowSize() {
+    function handleWindowResize() {
         const windowHeight = window.innerHeight;
-        chatWrapper.current.style=`height: ${windowHeight-120}px`
+        chatContainerElement.current.style=`height: ${windowHeight-372}px`;
     }
 
     function addMessage(message) {
         setMessages([...messages, message])
     }
     return (
-        <div id="chat-wrapper" ref={chatWrapper}>
+        <div id="chat-wrapper">
             <div id="chat-title">
                 <h2>Lofi Inn Live</h2>
             </div>
-            <div id="chat-container">
+            <div id="chat-container" ref={chatContainerElement}>
                 {
                     messages.map((messageBody, index) => 
                     <ChatMessage key={`message-id-${index}`} messageBody={messageBody}/>)

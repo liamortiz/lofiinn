@@ -65,7 +65,7 @@ const ChatForm = (props) => {
         textArea.current.focus();
     }
     return (
-        <>
+        <div id="chat-form-wrapper">
         <div className="divider"></div>
         <div id="user-information">
             <img src={defaultAvatar}/>
@@ -95,7 +95,7 @@ const ChatForm = (props) => {
             </div>
         </div>
         </form>
-        </>
+        </div>
     )
 }
 
