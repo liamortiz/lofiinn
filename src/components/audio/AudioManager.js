@@ -9,8 +9,8 @@ class AudioManager {
         this.currentPlaylist = null;
         this.timeTrackCallback = this.timeTrackCallback.bind(this);
     }
-    addNewPlaylist(name, tracks) {
-        this.playlists.push(new Playlist(name, tracks, this.timeTrackCallback));
+    addNewPlaylist(name, tracks, id) {
+        this.playlists.push(new Playlist(name, tracks, this.timeTrackCallback, id));
         if (!this.currentPlaylist) {
             this.currentPlaylist = this.playlists[0];
         }
@@ -42,6 +42,7 @@ class AudioManager {
         return ret;
     }
 
+    playTrackById(id) {this.currentPlaylist.playTrackById(id);}
     pauseTrack() {this.currentPlaylist.pause();}
     previousTrack() {this.currentPlaylist.skip('left');}
     nextTrack() {this.currentPlaylist.skip('right');}

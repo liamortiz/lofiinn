@@ -5,14 +5,27 @@ export default class Playlist {
      * @param {array} tracks
      * @param {string} name
      */
-    constructor(name, tracks, timeTrackCallback) {
+    constructor(name, tracks, timeTrackCallback, id) {
         this.tracks = tracks;
         this.currentTrackIndex = 0;
         this.name = name;
-        this.id = `${name}-${uuidv4()}`
+        this.id = id;
         this.timeTrackCallback = timeTrackCallback;
         this.updateCurrentTrack();
     }
+
+    playTrackById(id) {
+        
+        const track = this.tracks.find((track) => track.id===id);
+        const newTrack = new Audio(track.fileName);
+        newTrack.addEventListener("timeupdate", this.timeTrackCallback);
+
+        this.pause();
+        this.currentTrack.currentTime=0;
+        this.currentTrack = newTrack;
+        this.play();
+    }
+
     /**
      * @param {string} direction 
      */

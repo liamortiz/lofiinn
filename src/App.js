@@ -8,27 +8,34 @@ import Article from './components/article/Article';
 import MusicBar from './components/audio/AudioWrapper';
 import AudioManager from './components/audio/AudioManager';
 import ChatContainer from './components/chat/ChatContainer';
+import { v4 as uuidv4 } from 'uuid';
 
 import kudasai from './assets/kudasai-wheniseeyou.mp3';
 import kudasai_thegirl from './assets/kudasai-thegirl.mp3';
 import fleetwood from './assets/fleetwoodmac-dreams.mp3';
+import Playlist from './components/audio/Playlist';
 
 const App = () => {
   const tracks = [
-    {name: "When I see you", artist: "kudasai", album: "custom1", fileName: kudasai},
-    {name: "The Girl", artist: "kudasai", album: "custom1", fileName: kudasai_thegirl},
-    {name: "Dreams", artist: "FleetWood Mac", album: "custom1", fileName: fleetwood}
+    {name: "When I see you", artist: "kudasai", album: "custom1", fileName: kudasai, id: uuidv4()},
+    {name: "The Girl", artist: "kudasai", album: "custom1", fileName: kudasai_thegirl, id: uuidv4()},
+    {name: "Dreams", artist: "FleetWood Mac", album: "custom1", fileName: fleetwood, id: uuidv4()}
     ];
-
   const audioManager = new AudioManager();
-  audioManager.addNewPlaylist('default', tracks);
+  audioManager.addNewPlaylist("chill-mix", tracks, uuidv4());
   
   return (
     <>
     <Header/>
     <div className="App">
       <Switch>
-        <Route exact path="/" component={HomePage}/>
+      <Route
+        path='/'
+        render={(props) => (
+          <HomePage {...props} AudioManager={audioManager} tracks={tracks}/>
+        )}
+      />
+
         <Route path="/articles" component={Article}/>
         <Route component={PageNotFound}/>
       </Switch>

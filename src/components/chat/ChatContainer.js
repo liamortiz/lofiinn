@@ -14,7 +14,9 @@ const Robo = {
 const ChatContainer = () => {
 
     const chatContainerElement = useRef(null);
+    const chatWrapper = useRef(null);
     const [messages, setMessages] = useState([Robo]);
+    const [showChat, setShowChat] = useState(true);
 
     useEffect(() => {
         const windowHeight = window.innerHeight;
@@ -26,6 +28,14 @@ const ChatContainer = () => {
         }
     }, []);
 
+    useEffect(() => {
+        if (!showChat) {
+            chatWrapper.current.style="height: 30px";
+        } else {
+            chatWrapper.current.style="height: 85%";
+        }
+    }, [showChat])
+
     function handleWindowResize() {
         const windowHeight = window.innerHeight;
         chatContainerElement.current.style=`height: ${windowHeight-372}px`;
@@ -35,9 +45,9 @@ const ChatContainer = () => {
         setMessages([...messages, message])
     }
     return (
-        <div id="chat-wrapper">
-            <div id="chat-title">
-                <h2>Lofi Inn Live</h2>
+        <div id="chat-wrapper" ref={chatWrapper}>
+            <div id="chat-title" onClick={() => setShowChat(!showChat)}>
+                <h2>{showChat ? 'Hide Chat' : 'Show Chat'}</h2>
             </div>
             <div id="chat-container" ref={chatContainerElement}>
                 {
