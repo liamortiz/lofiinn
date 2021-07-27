@@ -1,14 +1,14 @@
 import ChatMessage from './ChatMessage';
 import ChatForm from './ChatForm';
 import { useState, useRef, useEffect } from 'react';
-import roboIcon from '../../assets/robotic.svg';
+import lofiBot from '../../assets/robotic.svg';
 
 import './_chat.scss';
 
 const Robo = {
     username: "LofiInn Bot",
     message: "Welcome to Lofii Inn! Please keep everything safe for work including art, profile pictures and uploaded music.",
-    icon: roboIcon
+    icon: lofiBot
 }
 
 const ChatContainer = () => {
@@ -20,8 +20,9 @@ const ChatContainer = () => {
 
     useEffect(() => {
         const windowHeight = window.innerHeight;
-        chatContainerElement.current.style=`height: ${windowHeight-372}px`;
-        window.onresize=handleWindowResize;
+        chatContainerElement.current.style=`height:${windowHeight - 360}px`;
+
+        window.onresize = handleWindowResize;
 
         return () => {
             window.onresize=null;
@@ -29,17 +30,14 @@ const ChatContainer = () => {
     }, []);
 
     useEffect(() => {
-        if (!showChat) {
-            chatWrapper.current.style="height: 30px";
-        } else {
-            chatWrapper.current.style="height: 85%";
-        }
-    }, [showChat])
+        chatWrapper.current.style=(showChat ? "height: 85%" : "height: 30px");
+    }, [showChat]);
 
     function handleWindowResize() {
         const windowHeight = window.innerHeight;
-        chatContainerElement.current.style=`height: ${windowHeight-372}px`;
+        chatContainerElement.current.style=`height:${windowHeight - 360}px`;
     }
+
 
     function addMessage(message) {
         setMessages([...messages, message])

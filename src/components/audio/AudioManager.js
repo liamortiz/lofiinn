@@ -1,9 +1,16 @@
 import Playlist from './Playlist';
 import './_audio.scss';
 import { useState, useRef, useEffect } from 'react';
-import tempAlbumCover from '../../assets/lofi-girl.jpg';
+import PropTypes from 'prop-types';
 
-
+const audioManagerProps = {
+    playlist: PropTypes.exact({
+        name: PropTypes.string.isRequired,
+        tracks: PropTypes.array.isRequired,
+        id: PropTypes.string.isRequired
+    }),
+    currentTrackId: PropTypes.string.isRequired
+}
 const AudioManager = (props) => {
 
     const [playlists, setPlaylists] = useState([]);
@@ -18,7 +25,7 @@ const AudioManager = (props) => {
 
     useEffect(() => {
         if (!currentPlaylist) {
-            console.log("Adding new playlist..")
+            console.log("AudioManager: Adding new playlist..")
             const {name, tracks, id} = props.playlist;
             addNewPlaylist(name, tracks, id);
         }
@@ -81,7 +88,7 @@ const AudioManager = (props) => {
     return (
         <div id="music-bar">
             <div id="track-details">
-                <img className="album-cover-icon" src={tempAlbumCover} alt=""/>
+                <img className="album-cover-icon" src={currentTrack?.cover} alt=""/>
                 <div id="track-info">
                 <p className="track-name">{currentTrack?.name}</p>
                 <p className="artist-name">{currentTrack?.artist}</p>
@@ -113,5 +120,7 @@ const AudioManager = (props) => {
         </div>
     )
 }
+
+AudioManager.propTypes = audioManagerProps;
 
 export default AudioManager;

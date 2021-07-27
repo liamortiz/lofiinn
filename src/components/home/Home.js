@@ -1,23 +1,33 @@
 import {Link} from 'react-router-dom';
 import './_home.scss';
 
-import albumCover1 from '../../assets/lofi-art-1.jpg';
-import albumCover2 from '../../assets/lofi-art-2.jpg';
-import albumCover3 from '../../assets/lofi-art-3.jpg';
+import albumCover1 from '../../assets/covers/lofi-art-1.jpg';
+import albumCover2 from '../../assets/covers/lofi-art-2.jpg';
+import albumCover3 from '../../assets/covers/lofi-art-3.jpg';
+import albumCover4 from '../../assets/covers/lofi-art-4.jpg';
+import albumCover5 from '../../assets/covers/avatar.jpg';
+import albumCover6 from '../../assets/covers/darkchoco.png';
 
 import { useState } from 'react';
 
 import { v4 as uuidv4 } from 'uuid';
 
-import kudasai from '../../assets/kudasai-wheniseeyou.mp3';
-import kudasai_thegirl from '../../assets/kudasai-thegirl.mp3';
-import fleetwood from '../../assets/fleetwoodmac-dreams.mp3';
+import kudasai from '../../assets/tracks/kudasai-wheniseeyou.mp3';
+import kudasai_thegirl from '../../assets/tracks/kudasai-thegirl.mp3';
+import fleetwood from '../../assets/tracks/fleetwoodmac-dreams.mp3';
+import foreverLoveTrack from '../../assets/tracks/ForeverLove.mp3';
+import darkChocolateTrack from '../../assets/tracks/DarkChocolate.mp3';
+import dearKataraTrack from '../../assets/tracks/ldre-DearKatara.mp3';
 import AudioManager from '../audio/AudioManager';
 
 const tracks = [
-    {name: "When I see you", artist: "kudasai", album: "custom1", fileName: kudasai, id: uuidv4()},
-    {name: "The Girl", artist: "kudasai", album: "custom1", fileName: kudasai_thegirl, id: uuidv4()},
-    {name: "Dreams", artist: "FleetWood Mac", album: "custom1", fileName: fleetwood, id: uuidv4()}];
+    {name: "When I see you", artist: "kudasai", album: "custom1", fileName: kudasai, id: uuidv4(), cover: albumCover2},
+    {name: "The Girl", artist: "kudasai", album: "custom1", fileName: kudasai_thegirl, id: uuidv4(), cover: albumCover1},
+    {name: "Dreams", artist: "FleetWood Mac", album: "custom1", fileName: fleetwood, id: uuidv4(), cover: albumCover3},
+    {name: "Dark Chocolate", artist: "L.Dre", album: "custom1", fileName: darkChocolateTrack, id: uuidv4(), cover: albumCover6},
+    {name: "Forever Love", artist: "Bootleg Boy", album: "custom1", fileName: foreverLoveTrack, id: uuidv4(), cover: albumCover4},
+    {name: "Dear Katara", artist: "L.Dre", album: "custom1", fileName: dearKataraTrack, id: uuidv4(), cover: albumCover5}];
+
 
 const Home = () => {
     const [currentTrackId, setCurrentTrackId] = useState(tracks[0].id);
@@ -37,21 +47,13 @@ const Home = () => {
             <div className="track-browse">
                 <h2>Community Favorites</h2>
                 <div className="track-overview">
-                    <div className="track-container" onClick={() => setCurrentTrackId(tracks[0].id)}>
-                        <img src={albumCover2} alt=""/>
-                        <p className="track-name">When I See You</p>
-                        <p className="track-artist">Kudasai</p>
-                    </div>
-                    <div className="track-container" onClick={() => setCurrentTrackId(tracks[1].id)}>
-                        <img src={albumCover1} alt=""/>
-                        <p className="track-name">The Girl</p>
-                        <p className="track-artist">Kudasai</p>
-                    </div>
-                    <div className="track-container" onClick={() => setCurrentTrackId(tracks[2].id)}>
-                        <img src={albumCover3} alt=""/>
-                        <p className="track-name">Dreams</p>
-                        <p className="track-artist">Fletwood Mac</p>
-                    </div>
+                    {tracks.map(track => (
+                        <div className="track-container" onClick={() => setCurrentTrackId(track.id)} key={track.id}>
+                            <img src={track.cover} alt=""/>
+                            <p className="track-name">{track.name}</p>
+                            <p className="track-artist">{track.artist}</p>
+                        </div>
+                    ))}
                 </div>
 
             </div>
