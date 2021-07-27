@@ -1,9 +1,9 @@
-import { v4 as uuidv4 } from 'uuid';
-
 export default class Playlist {
     /**
      * @param {array} tracks
      * @param {string} name
+     * @param {callback} timeTrackCallback
+     * @param {number} id
      */
     constructor(name, tracks, timeTrackCallback, id) {
         this.tracks = tracks;
@@ -15,15 +15,16 @@ export default class Playlist {
     }
 
     playTrackById(id) {
-        
-        const track = this.tracks.find((track) => track.id===id);
-        const newTrack = new Audio(track.fileName);
-        newTrack.addEventListener("timeupdate", this.timeTrackCallback);
-
-        this.pause();
-        this.currentTrack.currentTime=0;
-        this.currentTrack = newTrack;
-        this.play();
+        const trackIndex = this.tracks.findIndex((track) => track.id === id);
+        if (trackIndex !== -1) {
+            this.currentTrackIndex = trackIndex;
+            this.pause();
+            this.currentTrack.currentTime=0;
+            this.updateCurrentTrack();
+            this.play();
+        } else {
+            console.warn("Could not find track with ID of", id);
+        }
     }
 
     /**

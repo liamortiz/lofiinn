@@ -68,7 +68,7 @@ const ChatForm = (props) => {
         <div id="chat-form-wrapper">
         <div className="divider"></div>
         <div id="user-information">
-            <img src={defaultAvatar}/>
+            <img src={defaultAvatar} alt=""/>
             <h6 className="user-name">Anonymous</h6>
         </div>
         <form id="message-form" onSubmit={handleSubmit} ref={textForm}>
