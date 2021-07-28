@@ -19,6 +19,7 @@ import foreverLoveTrack from '../../assets/tracks/ForeverLove.mp3';
 import darkChocolateTrack from '../../assets/tracks/DarkChocolate.mp3';
 import dearKataraTrack from '../../assets/tracks/ldre-DearKatara.mp3';
 import AudioManager from '../audio/AudioManager';
+import Playlist from '../audio/Playlist';
 
 const tracks = [
     {name: "When I see you", artist: "kudasai", album: "custom1", fileName: kudasai, id: uuidv4(), cover: albumCover2},
@@ -27,6 +28,12 @@ const tracks = [
     {name: "Dark Chocolate", artist: "L.Dre", album: "custom1", fileName: darkChocolateTrack, id: uuidv4(), cover: albumCover6},
     {name: "Forever Love", artist: "Bootleg Boy", album: "custom1", fileName: foreverLoveTrack, id: uuidv4(), cover: albumCover4},
     {name: "Dear Katara", artist: "L.Dre", album: "custom1", fileName: dearKataraTrack, id: uuidv4(), cover: albumCover5}];
+
+
+const playlists = [
+    new Playlist("Chill Mix", tracks.slice(0, 3), uuidv4()),
+    new Playlist("Soft Sounds", tracks.slice(3, 6), uuidv4())
+]
 
 
 const Home = () => {
@@ -58,7 +65,7 @@ const Home = () => {
 
             </div>
         </div>
-        <AudioManager playlist={{name: "chill-mix", tracks, id: uuidv4()}} currentTrackId={currentTrackId}/>
+        <AudioManager playlists={playlists} currentTrackId={currentTrackId}/>
         </>
     )};
 

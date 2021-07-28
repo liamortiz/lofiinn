@@ -2,29 +2,30 @@ export default class Playlist {
     /**
      * @param {array} tracks
      * @param {string} name
-     * @param {callback} timeTrackCallback
      * @param {number} id
      */
-    constructor(name, tracks, timeTrackCallback, id) {
+    constructor(name, tracks, id) {
         this.tracks = tracks;
         this.currentTrackIndex = 0;
         this.name = name;
         this.id = id;
-        this.timeTrackCallback = timeTrackCallback;
+    }
+
+    initialize() {
         this.updateCurrentTrack();
     }
 
     playTrackById(id) {
         const trackIndex = this.tracks.findIndex((track) => track.id === id);
-        if (trackIndex !== -1) {
-            this.currentTrackIndex = trackIndex;
-            this.pause();
-            this.currentTrack.currentTime=0;
-            this.updateCurrentTrack();
-            this.play();
-        } else {
-            console.warn("Could not find track with ID of", id);
-        }
+
+        if (trackIndex === -1) return false;
+
+        this.currentTrackIndex = trackIndex;
+        this.pause();
+        this.currentTrack.currentTime=0;
+        this.updateCurrentTrack();
+        this.play();
+        return true;
     }
 
     /**
@@ -44,9 +45,7 @@ export default class Playlist {
     }
 
     updateCurrentTrack() {
-        const newTrack = new Audio(this.tracks[this.currentTrackIndex].fileName);
-        newTrack.addEventListener("timeupdate", this.timeTrackCallback);
-        this.currentTrack = newTrack;
+        this.currentTrack = new Audio(this.tracks[this.currentTrackIndex].fileName);
     }
 
     pause() {this.currentTrack.pause();}

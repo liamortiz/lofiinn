@@ -1,21 +1,16 @@
-import Playlist from './Playlist';
 import './_audio.scss';
 import { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 const audioManagerProps = {
-    playlist: PropTypes.exact({
-        name: PropTypes.string.isRequired,
-        tracks: PropTypes.array.isRequired,
-        id: PropTypes.string.isRequired
-    }),
+    playlists: PropTypes.array.isRequired,
     currentTrackId: PropTypes.string.isRequired
 }
 const AudioManager = (props) => {
 
-    const [playlists, setPlaylists] = useState([]);
-    const [currentPlaylist, setCurrentPlaylist] = useState(null);
-    const [currentTrack, setCurrentTrack] = useState(null);
+    const [playlists, setPlaylists] = useState(props.playlists);
+    const [currentPlaylist, setCurrentPlaylist] = useState(props.playlists[0]);
+    const [currentTrack, setCurrentTrack] = useState({});
     const [trackTime, setTrackTime] = useState("0:00");
     const [trackDuration, setTrackDuration] = useState("0:00");
     const [isPlaying, setIsPlaying] = useState(false);
@@ -23,45 +18,42 @@ const AudioManager = (props) => {
     const playButton = useRef(null);
     const previousTrackId = useRef(props.currentTrackId);
 
-    useEffect(() => {
-        if (!currentPlaylist) {
-            console.log("AudioManager: Adding new playlist..")
-            const {name, tracks, id} = props.playlist;
-            addNewPlaylist(name, tracks, id);
-        }
-    }, []);
+    useEffect(initializePlaylist, []);
 
     useEffect(() => {
         if (previousTrackId.current !== props.currentTrackId) {
             previousTrackId.current = props.currentTrackId;
             playTrackById(props.currentTrackId);
         }
-    }, [props.currentTrackId])
+    }, [props.currentTrackId]);
 
-    function addNewPlaylist(name, tracks, id) {
-        const newPlaylist = new Playlist(name, tracks, timeTrackCallback, id);
-        setPlaylists([...playlists, newPlaylist]);
-        if (currentPlaylist === null) {
-            setCurrentPlaylist(newPlaylist);
-            setCurrentTrack(newPlaylist.getCurrentTrackDetails());
-        }
+    useEffect(() => {
+        initializePlaylist();
+    }, [currentPlaylist]);
+
+    function initializePlaylist() {
+        currentPlaylist.initialize();
+        setCurrentTrack(currentPlaylist.getCurrentTrackDetails());
+
+        currentPlaylist.getCurrentTrack().addEventListener('loadeddata', timeTrackCallback);
+        currentPlaylist.getCurrentTrack().addEventListener('timeupdate', timeTrackCallback);
     }
-    function timeTrackCallback(event) {
-        const currentTime = event.target.currentTime;
-        const duration = event.target.duration;
 
+    function timeTrackCallback({ target }) {
+        const currentTime = target.currentTime;
+        const duration = target.duration;
+
+        const formatTime = (duration) => {   
+            const mins = ~~((duration % 3600) / 60);
+            const secs = ~~duration % 60;
+            const ret = `${mins}:${secs < 10 ? "0" : ""}${secs}`;
+            return ret;
+        }
         setTrackTime(formatTime(currentTime));
         setTrackDuration(formatTime(duration));
 
         const ballPosition = (currentTime / duration) * 100
         progressBall.current.style.left=`${ballPosition - 2}%`;
-    }
-
-    function formatTime(duration) {   
-        const mins = ~~((duration % 3600) / 60);
-        const secs = ~~duration % 60;
-        const ret = `${mins}:${secs < 10 ? "0" : ""}${secs}`;
-        return ret;
     }
 
     function togglePlayTrack() {
@@ -75,14 +67,28 @@ const AudioManager = (props) => {
 
     function skipTrack(direction) {
         if (!isPlaying) setIsPlaying(true);
+
         currentPlaylist.skip(direction);
+        currentPlaylist.getCurrentTrack().addEventListener('timeupdate', timeTrackCallback);
         setCurrentTrack(currentPlaylist.getCurrentTrackDetails());
     }
 
     function playTrackById(id) {
-        currentPlaylist.playTrackById(id);
-        setCurrentTrack(currentPlaylist.getCurrentTrackDetails());
-        setIsPlaying(true);
+        if (currentPlaylist.playTrackById(id)) {
+            setCurrentTrack(currentPlaylist.getCurrentTrackDetails());
+            currentPlaylist.getCurrentTrack().addEventListener('timeupdate', timeTrackCallback);
+            setIsPlaying(true);
+        }
+    }
+
+    function switchPlaylist(id) {
+        const targetPlaylist = playlists.find((playlist) => playlist.id === id);
+        if (targetPlaylist) {
+            currentPlaylist.pause();
+            setIsPlaying(false);
+            setCurrentPlaylist(targetPlaylist);
+            setCurrentTrack(targetPlaylist.getCurrentTrackDetails());   
+        }
     }
 
     return (
@@ -117,6 +123,7 @@ const AudioManager = (props) => {
                 </button>
                 <button className="btn" id="skip-right-btn" onClick={() => skipTrack('right')}></button>
             </div>
+            <button onClick={() => switchPlaylist(playlists[1].id)}>Switch Playlist</button>
         </div>
     )
 }
