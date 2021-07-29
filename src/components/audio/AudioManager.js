@@ -44,11 +44,6 @@ const AudioManager = (props) => {
         }
     }, [props.currentTrack]);
 
-
-    useEffect(() => {
-        console.info("Updated Playqueue, now unrelated to default playlist..", playQueue);
-    }, [playQueue]);
-
     function playRougeTrack(track) {
         const trackIndex = playQueue.findIndex((_track) => _track.id === track.id);
         if (trackIndex !== -1) {

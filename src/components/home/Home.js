@@ -19,6 +19,7 @@ import foreverLoveTrack from '../../assets/tracks/ForeverLove.mp3';
 import darkChocolateTrack from '../../assets/tracks/DarkChocolate.mp3';
 import dearKataraTrack from '../../assets/tracks/ldre-DearKatara.mp3';
 import AudioManager from '../audio/AudioManager';
+import PlaylistManager from '../audio/PlaylistManager';
 import Playlist from '../audio/Playlist';
 
 const tracks = [
@@ -74,6 +75,7 @@ const Home = () => {
 
             </div>
         </div>
+        <PlaylistManager/>
         <AudioManager playlists={playlists} currentTrack={currentTrack}/>
         </>
     )};
