@@ -16,7 +16,7 @@ const ChatContainer = () => {
     const chatContainerElement = useRef(null);
     const chatWrapper = useRef(null);
     const [messages, setMessages] = useState([Robo]);
-    const [showChat, setShowChat] = useState(true);
+    const [showChat, setShowChat] = useState(false);
 
     useEffect(() => {
         const windowHeight = window.innerHeight;

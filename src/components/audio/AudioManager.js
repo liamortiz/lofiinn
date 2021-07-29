@@ -1,6 +1,7 @@
 import './_audio.scss';
 import { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import PlaylistManager from './PlaylistManager';
 
 /*
 Queues and Playlists are used to maintain the stream of music.
@@ -13,8 +14,7 @@ A new playlist can be created from the queue.
 */
 
 const audioManagerProps = {
-    playlists: PropTypes.array.isRequired,
-    currentTrack: PropTypes.object.isRequired
+    playlists: PropTypes.array.isRequired
 }
 const AudioManager = (props) => {
 
@@ -28,7 +28,6 @@ const AudioManager = (props) => {
     const [isPlaying, setIsPlaying] = useState(false);
     const progressBall = useRef(null);
     const playButton = useRef(null);
-    const previousTrackId = useRef(props.currentTrack.id);
 
     useEffect(() => {
         loadTrackAudio(playQueue[0]);
@@ -36,13 +35,6 @@ const AudioManager = (props) => {
         console.info('Playlists:', playlists);
         console.info('Play Queue:', playQueue);
     }, []);
-
-    useEffect(() => {
-        if (previousTrackId.current !== props.currentTrack.id) {
-            previousTrackId.current = props.currentTrack.id;
-            playRougeTrack(props.currentTrack);
-        }
-    }, [props.currentTrack]);
 
     function playRougeTrack(track) {
         const trackIndex = playQueue.findIndex((_track) => _track.id === track.id);
@@ -109,6 +101,8 @@ const AudioManager = (props) => {
     }
 
     return (
+        <>
+        <PlaylistManager tracks={playQueue} playRougeTrack={playRougeTrack} currentlyPlaying={playQueue[currentTrackIndex].id}/>
         <div id="music-bar">
             <div id="track-details">
                 <img className="album-cover-icon" src={playQueue[currentTrackIndex]?.cover} alt=""/>
@@ -141,6 +135,7 @@ const AudioManager = (props) => {
                 <button className="btn" id="skip-right-btn" onClick={() => skipTrack('right')}></button>
             </div>
         </div>
+        </>
     )
 }
 
