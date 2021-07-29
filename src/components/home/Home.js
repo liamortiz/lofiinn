@@ -22,23 +22,22 @@ import AudioManager from '../audio/AudioManager';
 import Playlist from '../audio/Playlist';
 
 const tracks = [
-    {name: "When I see you", artist: "kudasai", album: "custom1", fileName: kudasai, id: uuidv4(), cover: albumCover2},
-    {name: "The Girl", artist: "kudasai", album: "custom1", fileName: kudasai_thegirl, id: uuidv4(), cover: albumCover1},
-    {name: "Dreams", artist: "FleetWood Mac", album: "custom1", fileName: fleetwood, id: uuidv4(), cover: albumCover3},
-    {name: "Dark Chocolate", artist: "L.Dre", album: "custom1", fileName: darkChocolateTrack, id: uuidv4(), cover: albumCover6},
-    {name: "Forever Love", artist: "Bootleg Boy", album: "custom1", fileName: foreverLoveTrack, id: uuidv4(), cover: albumCover4},
-    {name: "Dear Katara", artist: "L.Dre", album: "custom1", fileName: dearKataraTrack, id: uuidv4(), cover: albumCover5}];
+    {name: "When I see you", artist: "kudasai", album: "custom1", fileName: kudasai, id: uuidv4(), cover: albumCover2, playlistId: 1},
+    {name: "The Girl", artist: "kudasai", album: "custom1", fileName: kudasai_thegirl, id: uuidv4(), cover: albumCover1, playlistId: 1},
+    {name: "Dreams", artist: "FleetWood Mac", album: "custom1", fileName: fleetwood, id: uuidv4(), cover: albumCover3, playlistId: 1},
+    {name: "Dark Chocolate", artist: "L.Dre", album: "custom1", fileName: darkChocolateTrack, id: uuidv4(), cover: albumCover6, playlistId: 2},
+    {name: "Forever Love", artist: "Bootleg Boy", album: "custom1", fileName: foreverLoveTrack, id: uuidv4(), cover: albumCover4, playlistId: 2},
+    {name: "Dear Katara", artist: "L.Dre", album: "custom1", fileName: dearKataraTrack, id: uuidv4(), cover: albumCover5, playlistId: 2}];
 
 
 const playlists = [
-    new Playlist("Chill Mix", tracks.slice(0, 3), uuidv4()),
-    new Playlist("Soft Sounds", tracks.slice(3, 6), uuidv4())
+    new Playlist("Chill Mix", tracks.slice(0, 3), 1),
+    new Playlist("Soft Sounds", tracks.slice(3, 6), 2)
 ]
 
 
 const Home = () => {
-    const [currentTrackId, setCurrentTrackId] = useState(tracks[0].id);
-    
+    const [currentTrack, setCurrentTrack] = useState(tracks[0]);
     return (
         <>
         <div data-testid="home-wrapper" id="home-wrapper">
@@ -54,8 +53,18 @@ const Home = () => {
             <div className="track-browse">
                 <h2>Community Favorites</h2>
                 <div className="track-overview">
-                    {tracks.map(track => (
-                        <div className="track-container" onClick={() => setCurrentTrackId(track.id)} key={track.id}>
+                    {tracks.slice(0, 3).map(track => (
+                        <div className="track-container" onClick={() => setCurrentTrack(track)} key={track.id}>
+                            <img src={track.cover} alt=""/>
+                            <p className="track-name">{track.name}</p>
+                            <p className="track-artist">{track.artist}</p>
+                        </div>
+                    ))}
+                </div>
+                <h2>Picked by You</h2>
+                <div className="track-overview">
+                    {tracks.slice(3, 6).map(track => (
+                        <div className="track-container" onClick={() => setCurrentTrack(track)} key={track.id}>
                             <img src={track.cover} alt=""/>
                             <p className="track-name">{track.name}</p>
                             <p className="track-artist">{track.artist}</p>
@@ -65,7 +74,7 @@ const Home = () => {
 
             </div>
         </div>
-        <AudioManager playlists={playlists} currentTrackId={currentTrackId}/>
+        <AudioManager playlists={playlists} currentTrack={currentTrack}/>
         </>
     )};
 

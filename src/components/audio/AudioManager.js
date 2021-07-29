@@ -2,41 +2,78 @@ import './_audio.scss';
 import { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
+/*
+Queues and Playlists are used to maintain the stream of music.
+If a user clicks on a track not inside a user owned playlist, it will be added to the current Queue.
+Playlists are used as a source of refrence.
+
+The main difference between a queue and a playlist is, a playlist contains all owned tracks.
+A queue contains unrelated tracks.
+A new playlist can be created from the queue.
+*/
+
 const audioManagerProps = {
     playlists: PropTypes.array.isRequired,
-    currentTrackId: PropTypes.string.isRequired
+    currentTrack: PropTypes.object.isRequired
 }
 const AudioManager = (props) => {
 
     const [playlists, setPlaylists] = useState(props.playlists);
     const [currentPlaylist, setCurrentPlaylist] = useState(props.playlists[0]);
-    const [currentTrack, setCurrentTrack] = useState({});
+    const [playQueue, setPlayQueue] = useState(props.playlists[0].getTracks());
+    const [currentTrack, setCurrentTrack] = useState(null);
     const [trackTime, setTrackTime] = useState("0:00");
     const [trackDuration, setTrackDuration] = useState("0:00");
+    const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
     const progressBall = useRef(null);
     const playButton = useRef(null);
-    const previousTrackId = useRef(props.currentTrackId);
-
-    useEffect(initializePlaylist, []);
+    const previousTrackId = useRef(props.currentTrack.id);
 
     useEffect(() => {
-        if (previousTrackId.current !== props.currentTrackId) {
-            previousTrackId.current = props.currentTrackId;
-            playTrackById(props.currentTrackId);
+        loadTrackAudio(playQueue[0]);
+
+        console.info('Playlists:', playlists);
+        console.info('Play Queue:', playQueue);
+    }, []);
+
+    useEffect(() => {
+        if (previousTrackId.current !== props.currentTrack.id) {
+            previousTrackId.current = props.currentTrack.id;
+            playRougeTrack(props.currentTrack);
         }
-    }, [props.currentTrackId]);
+    }, [props.currentTrack]);
+
 
     useEffect(() => {
-        initializePlaylist();
-    }, [currentPlaylist]);
+        console.info("Updated Playqueue, now unrelated to default playlist..", playQueue);
+    }, [playQueue]);
 
-    function initializePlaylist() {
-        currentPlaylist.initialize();
-        setCurrentTrack(currentPlaylist.getCurrentTrackDetails());
+    function playRougeTrack(track) {
+        const trackIndex = playQueue.findIndex((_track) => _track.id === track.id);
+        if (trackIndex !== -1) {
+            setCurrentTrackIndex(trackIndex);
+            loadTrackAudio(playQueue[trackIndex]).play();
+        } else {
+            setPlayQueue([...playQueue, track]);
+            setCurrentTrackIndex(playQueue.length);
+            loadTrackAudio(track).play();
+        }
+        setIsPlaying(true);    
+    }
 
-        currentPlaylist.getCurrentTrack().addEventListener('loadeddata', timeTrackCallback);
-        currentPlaylist.getCurrentTrack().addEventListener('timeupdate', timeTrackCallback);
+    function loadTrackAudio(track) {
+        if (currentTrack) {
+            currentTrack.currentTime = 0;
+            currentTrack.pause();
+        }
+        const audioFile = new Audio(track.fileName);
+        audioFile.addEventListener('loadeddata', timeTrackCallback);
+        audioFile.addEventListener('timeupdate', timeTrackCallback);
+        audioFile.addEventListener('ended', ()=> setIsPlaying(false));
+        setCurrentTrack(audioFile);
+
+        return audioFile;
     }
 
     function timeTrackCallback({ target }) {
@@ -58,9 +95,9 @@ const AudioManager = (props) => {
 
     function togglePlayTrack() {
         if (isPlaying) {
-            currentPlaylist.pause();
+            currentTrack.pause();
         } else {
-            currentPlaylist.play();
+            currentTrack.play();
         }
         setIsPlaying(!isPlaying);
     }
@@ -68,36 +105,21 @@ const AudioManager = (props) => {
     function skipTrack(direction) {
         if (!isPlaying) setIsPlaying(true);
 
-        currentPlaylist.skip(direction);
-        currentPlaylist.getCurrentTrack().addEventListener('timeupdate', timeTrackCallback);
-        setCurrentTrack(currentPlaylist.getCurrentTrackDetails());
-    }
+        let newTrackIndex = currentTrackIndex;
+        if (direction==='right' && currentTrackIndex + 1 < playQueue.length) newTrackIndex+=1;
+        if (direction==='left' && currentTrackIndex - 1 >= 0) newTrackIndex-=1;
 
-    function playTrackById(id) {
-        if (currentPlaylist.playTrackById(id)) {
-            setCurrentTrack(currentPlaylist.getCurrentTrackDetails());
-            currentPlaylist.getCurrentTrack().addEventListener('timeupdate', timeTrackCallback);
-            setIsPlaying(true);
-        }
-    }
-
-    function switchPlaylist(id) {
-        const targetPlaylist = playlists.find((playlist) => playlist.id === id);
-        if (targetPlaylist) {
-            currentPlaylist.pause();
-            setIsPlaying(false);
-            setCurrentPlaylist(targetPlaylist);
-            setCurrentTrack(targetPlaylist.getCurrentTrackDetails());   
-        }
+        setCurrentTrackIndex(newTrackIndex);
+        loadTrackAudio(playQueue[newTrackIndex]).play();
     }
 
     return (
         <div id="music-bar">
             <div id="track-details">
-                <img className="album-cover-icon" src={currentTrack?.cover} alt=""/>
+                <img className="album-cover-icon" src={playQueue[currentTrackIndex]?.cover} alt=""/>
                 <div id="track-info">
-                <p className="track-name">{currentTrack?.name}</p>
-                <p className="artist-name">{currentTrack?.artist}</p>
+                <p className="track-name">{playQueue[currentTrackIndex]?.name}</p>
+                <p className="artist-name">{playQueue[currentTrackIndex]?.artist}</p>
                 </div>
             </div>
             <div id="center-audio-controls">
@@ -123,7 +145,6 @@ const AudioManager = (props) => {
                 </button>
                 <button className="btn" id="skip-right-btn" onClick={() => skipTrack('right')}></button>
             </div>
-            <button onClick={() => switchPlaylist(playlists[1].id)}>Switch Playlist</button>
         </div>
     )
 }
