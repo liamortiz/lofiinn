@@ -1,5 +1,8 @@
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './_home.scss';
+import PropTypes from 'prop-types';
+
+const homeProps = {tracks: PropTypes.array.isRequired};
 
 const Home = (props) => {
     return (
@@ -37,6 +40,9 @@ const Home = (props) => {
 
             </div>
         </div>
-    )};
+    )
+};
+
+Home.propTypes = homeProps;
 
 export default Home;

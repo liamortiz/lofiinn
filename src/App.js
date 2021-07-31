@@ -5,6 +5,7 @@ import Header from './components/common/Header';
 import PageNotFound from './components/PageNotFound';
 import Article from './components/article/Article';
 import ChatContainer from './components/chat/ChatContainer';
+import PlaylistManager from './components/audio/PlaylistManager';
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -40,24 +41,23 @@ const playlists = [
 
 const App = () => {
   return (
-    <>
-    <Header/>
     <div className="App">
+      <Header/>
       <Switch>
         <Route
           path='/'
           exact
           render={(props) => (
-            <HomePage {...props} tracks={tracks} />
+            <HomePage {...props} tracks={tracks}/>
           )}
         />
         <Route path="/articles" component={Article}/>
         <Route component={PageNotFound}/>
       </Switch>
+      <PlaylistManager tracks={tracks.slice(0, 3)}/>
       <AudioManager playlists={playlists}/>
       <ChatContainer/>
     </div>
-    </>
   );
 }
 export default App;

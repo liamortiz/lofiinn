@@ -1,10 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import PropTypes from 'prop-types';
 
-const playlistProps = {
-    tracks: PropTypes.array.isRequired,
-    playRougeTrack: PropTypes.func.isRequired
-}
+const playlistProps = {tracks: PropTypes.array.isRequired}
 
 const PlaylistManager = (props) => {
 
@@ -15,9 +12,6 @@ const PlaylistManager = (props) => {
         playlistWindow.current.style=(showPlaylistWindow ? "height: 86%" : "height: 45px");
     }, [showPlaylistWindow]);
 
-    console.log(props.currentlyPlaying);
-    console.log("Refreshing..");
-
     return (
         <div id="playlist-manager-wrapper" ref={playlistWindow}>
             <div id="playlist-title" onClick={() => setShowPlaylistWindow(!showPlaylistWindow)}>
@@ -26,16 +20,10 @@ const PlaylistManager = (props) => {
             <div id="pm-track-wrapper">
 
                 {props.tracks.map(track => (
-                <div 
-                key={track.id} 
-                className={`pm-track-container ${props.currentlyPlaying === track.id ? 'track-playing' : ''}`}
-                onClick={() => props.playRougeTrack(track)}
-                >
-
-                    <img src={track.cover}/>
+                <div key={track.id} className="pm-track-container">
+                    <img src={track.cover} alt=""/>
                     <p className="track-name">{track.name}</p>
                     <p className="track-artist">{track.artist}</p>
-
                 </div>
                 ))}
             </div>

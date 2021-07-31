@@ -1,7 +1,6 @@
 import './_audio.scss';
 import { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import PlaylistManager from './PlaylistManager';
 
 /*
 Queues and Playlists are used to maintain the stream of music.
@@ -13,13 +12,9 @@ A queue contains unrelated tracks.
 A new playlist can be created from the queue.
 */
 
-const audioManagerProps = {
-    playlists: PropTypes.array.isRequired
-}
-const AudioManager = (props) => {
+const audioManagerProps = {playlists: PropTypes.array.isRequired};
 
-    const [playlists, setPlaylists] = useState(props.playlists);
-    const [currentPlaylist, setCurrentPlaylist] = useState(props.playlists[0]);
+const AudioManager = (props) => {
     const [playQueue, setPlayQueue] = useState(props.playlists[0].getTracks());
     const [currentTrack, setCurrentTrack] = useState(null);
     const [trackTime, setTrackTime] = useState("0:00");
@@ -31,12 +26,10 @@ const AudioManager = (props) => {
 
     useEffect(() => {
         loadTrackAudio(playQueue[0]);
-
-        console.info('Playlists:', playlists);
-        console.info('Play Queue:', playQueue);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    function playRougeTrack(track) {
+    const playRougeTrack = (track) => {
         const trackIndex = playQueue.findIndex((_track) => _track.id === track.id);
         if (trackIndex !== -1) {
             setCurrentTrackIndex(trackIndex);
@@ -101,8 +94,6 @@ const AudioManager = (props) => {
     }
 
     return (
-        <>
-        <PlaylistManager tracks={playQueue} playRougeTrack={playRougeTrack} currentlyPlaying={playQueue[currentTrackIndex].id}/>
         <div id="music-bar">
             <div id="track-details">
                 <img className="album-cover-icon" src={playQueue[currentTrackIndex]?.cover} alt=""/>
@@ -135,9 +126,8 @@ const AudioManager = (props) => {
                 <button className="btn" id="skip-right-btn" onClick={() => skipTrack('right')}></button>
             </div>
         </div>
-        </>
     )
-}
+};
 
 AudioManager.propTypes = audioManagerProps;
 
