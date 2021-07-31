@@ -6,7 +6,10 @@ import configureStore from './redux/configureStore';
 import {Provider} from 'react-redux';
 
 // Might need to load the initial state from the API
-const store = configureStore({articles: []});
+const store = configureStore({
+  articles: {},
+  audio: {currentTrackId: 0}
+});
 
 ReactDOM.render(
   <React.StrictMode>

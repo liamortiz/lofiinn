@@ -1,10 +1,15 @@
 import { Link } from 'react-router-dom';
 import './_home.scss';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { updateCurrentTrack } from '../../redux/actions/audioActions';
 
 const homeProps = {tracks: PropTypes.array.isRequired};
 
 const Home = (props) => {
+
+    const dispatch = useDispatch();
+
     return (
         <div data-testid="home-wrapper" id="home-wrapper">
             <div id="welcome-heading">
@@ -20,7 +25,7 @@ const Home = (props) => {
                 <h2>Community Favorites</h2>
                 <div className="track-overview">
                     {props.tracks.slice(0, 3).map(track => (
-                        <div className="track-container" key={track.id}>
+                        <div className="track-container" key={track.id} onClick={() => dispatch(updateCurrentTrack(track))}>
                             <img src={track.cover} alt=""/>
                             <p className="track-name">{track.name}</p>
                             <p className="track-artist">{track.artist}</p>
@@ -30,7 +35,7 @@ const Home = (props) => {
                 <h2>Picked by You</h2>
                 <div className="track-overview">
                     {props.tracks.slice(3, 6).map(track => (
-                        <div className="track-container" key={track.id}>
+                        <div className="track-container" key={track.id} onClick={() => dispatch(updateCurrentTrack(track))}>
                             <img src={track.cover} alt=""/>
                             <p className="track-name">{track.name}</p>
                             <p className="track-artist">{track.artist}</p>

@@ -1,6 +1,8 @@
 import './_audio.scss';
 import { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+import { updateCurrentTrack } from '../../redux/actions/audioActions';
 
 /*
 Queues and Playlists are used to maintain the stream of music.
@@ -21,6 +23,7 @@ const AudioManager = (props) => {
     const [trackDuration, setTrackDuration] = useState("0:00");
     const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
+    const currentRougeTrack = useSelector(state => state.audio.currentRougeTrack);
     const progressBall = useRef(null);
     const playButton = useRef(null);
 
@@ -29,7 +32,12 @@ const AudioManager = (props) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    useEffect(() => {
+        playRougeTrack(currentRougeTrack);
+    }, [currentRougeTrack]);
+
     const playRougeTrack = (track) => {
+        if (typeof track !== 'object') return;
         const trackIndex = playQueue.findIndex((_track) => _track.id === track.id);
         if (trackIndex !== -1) {
             setCurrentTrackIndex(trackIndex);
