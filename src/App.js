@@ -6,6 +6,7 @@ import PageNotFound from './components/PageNotFound';
 import Article from './components/article/Article';
 import ChatContainer from './components/chat/ChatContainer';
 import PlaylistManager from './components/audio/PlaylistManager';
+import ArtPage from './components/art/Art';
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -35,14 +36,14 @@ const tracks = [
 
 
 const playlists = [
-  new Playlist("Chill Mix", tracks.slice(0, 3), 1),
-  new Playlist("Soft Sounds", tracks.slice(3, 6), 2)
+  new Playlist("Chill Mix", tracks, 1)
 ]
 
 const App = () => {
   return (
+    <>
+    <Header/>
     <div className="App">
-      <Header/>
       <Switch>
         <Route
           path='/'
@@ -52,12 +53,14 @@ const App = () => {
           )}
         />
         <Route path="/articles" component={Article}/>
+        <Route path="/art" component={ArtPage}/>
         <Route component={PageNotFound}/>
       </Switch>
-      <PlaylistManager tracks={tracks.slice(0, 3)}/>
+      <PlaylistManager tracks={tracks}/>
       <AudioManager playlists={playlists}/>
       <ChatContainer/>
     </div>
+    </>
   );
 }
 export default App;

@@ -49,11 +49,15 @@
         flex-wrap: wrap;
         justify-content: center;
     }
+    .track-playing {
+        background: white !important;
+        color: black !important;
+    }
     .pm-track-container {
         padding: .2em 1em;
         height: 40px;
         border: 1px solid black;
-      
+        letter-spacing: .1em;
         &:hover {
             border: 1px solid white;
             cursor: pointer;
@@ -72,9 +76,6 @@
             margin-left: 1em;
             font-size: 100%;
             color: lighten($color: $name-color, $amount: 50%);
-        }
-        .track-playing {
-            border: 1px solid white !important;
         }
     }
 }

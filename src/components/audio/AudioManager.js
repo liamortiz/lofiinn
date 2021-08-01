@@ -1,7 +1,7 @@
 import './_audio.scss';
 import { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { updateCurrentTrack } from '../../redux/actions/audioActions';
 
 /*
@@ -26,6 +26,8 @@ const AudioManager = (props) => {
     const currentRougeTrack = useSelector(state => state.audio.currentRougeTrack);
     const progressBall = useRef(null);
     const playButton = useRef(null);
+    
+    const dispatch = useDispatch();
 
     useEffect(() => {
         loadTrackAudio(playQueue[0]);
@@ -99,6 +101,7 @@ const AudioManager = (props) => {
 
         setCurrentTrackIndex(newTrackIndex);
         loadTrackAudio(playQueue[newTrackIndex]).play();
+        dispatch(updateCurrentTrack(playQueue[newTrackIndex]));
     }
 
     return (

@@ -1,0 +1,80 @@
+@import '../../utilities.scss';
+
+
+.photo-column {
+    max-width: 400px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    img:not(.artist-avatar) {
+        margin: .2em;
+        object-fit: cover;
+        transition: all .2s;
+        transition-timing-function: ease-in-out;
+        &:hover {
+            cursor: pointer;
+        }
+    }
+}
+
+.detail-wrapper {
+    position: relative;
+    width: 400px;
+    height: 400px;
+    height: auto;
+}
+
+.glass {
+    /* --- the magic --- */
+    color: white;
+    position: absolute;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  
+    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.1), 0 1px 20px 0 rgba(0, 0, 0, 0.1);
+    /* ----------------- */
+    width: 99%;
+    left: 4px;
+    padding: .2em;
+    box-sizing: border-box;
+    height: 50px;
+}
+
+.artist-details {
+    font-family: $main-font;
+    p {
+        float: left;
+        margin-left: 1em;
+    }
+}
+
+
+.artist-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 100%;
+    float: left;
+    margin-left: .5em;
+    margin-top: .2em;
+}
+
+
+
+#art-wrapper {
+    margin: 0 auto;
+    margin-top: .2em;
+    width: 90%;
+    max-width: 1220px;
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+    padding-bottom: 10em;
+
+    .art-image-container {
+        position: relative;
+        max-width: 400px;
+        height: 400px;
+    }
+}
