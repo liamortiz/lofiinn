@@ -1,5 +1,23 @@
 @import '../../utilities.scss';
 
+.icon {
+    width: 24px;
+    height: 24px;
+    background-color: transparent;
+    border: none;
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.download-icon {
+    background-image: url('../../assets/download.svg');
+}
+.view-icon {
+    background-image: url('../../assets/view.svg');
+}
+
 .right-tabs {
     float: right;
 }
