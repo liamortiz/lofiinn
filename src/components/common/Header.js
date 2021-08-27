@@ -14,8 +14,7 @@ const Header = () =>  (
         <NavLink to="/" exact>Home</NavLink>
         <NavLink to="/stream">Stream</NavLink>
         <NavLink to="/art">Lofi Art</NavLink>
-        <NavLink to="/articles">Articles</NavLink>
-        <NavLink className="right-tabs upload" to="/upload">Upload</NavLink>
+        <NavLink className="right-tabs upload" to="/upload"><span className="icon upload-icon"></span><p>Upload</p></NavLink>
 
         <div id="user-account-tab">
             <img src={userDetails.icon} alt=""/>

@@ -17,7 +17,26 @@
 .view-icon {
     background-image: url('../../assets/view.svg');
 }
-
+.upload {
+    margin-top: -.4em;
+    width: 100px;
+    height: 20px;
+    padding: .5em;
+    border-radius: 15px;
+    &:hover {
+        color: white !important;
+    }
+    span {
+        background-image: url('../../assets/upload.svg');
+        margin-right: .5em;
+        float: left;
+    }
+    p {
+        display: inline-block;
+        margin-top: .2em;
+    }
+    background: $main-color;
+}
 .right-tabs {
     float: right;
 }

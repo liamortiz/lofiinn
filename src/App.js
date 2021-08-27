@@ -3,7 +3,6 @@ import {Route, Switch} from 'react-router-dom';
 import HomePage from './components/home/Home';
 import Header from './components/common/Header';
 import PageNotFound from './components/PageNotFound';
-import Article from './components/article/Article';
 import ChatContainer from './components/chat/ChatContainer';
 import PlaylistManager from './components/audio/PlaylistManager';
 import ArtPage from './components/art/Art';
@@ -36,7 +35,8 @@ const tracks = [
 
 
 const playlists = [
-  new Playlist("Chill Mix", tracks, 1)
+  new Playlist("Chill Mix", tracks.slice(0, 3), uuidv4()),
+  new Playlist("Favorites", tracks.slice(3, tracks.length), uuidv4()),
 ]
 
 const App = () => {
@@ -52,11 +52,10 @@ const App = () => {
             <HomePage {...props} tracks={tracks}/>
           )}
         />
-        <Route path="/articles" component={Article}/>
         <Route path="/art" component={ArtPage}/>
         <Route component={PageNotFound}/>
       </Switch>
-      <PlaylistManager tracks={tracks}/>
+      <PlaylistManager playlists={playlists}/>
       <AudioManager playlists={playlists}/>
       <ChatContainer/>
     </div>
