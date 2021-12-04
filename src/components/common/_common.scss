@@ -20,7 +20,7 @@
 .upload {
     margin-top: -.4em;
     width: 100px;
-    height: 20px;
+    height: 15px;
     padding: .5em;
     border-radius: 15px;
     &:hover {
@@ -30,10 +30,11 @@
         background-image: url('../../assets/upload.svg');
         margin-right: .5em;
         float: left;
+        margin-top: -.2em;
     }
     p {
         display: inline-block;
-        margin-top: .2em;
+        margin-top: 0;
     }
     background: $main-color;
 }
@@ -80,8 +81,5 @@ nav {
         text-decoration: none;
         margin: 0 2em;
         transition: color .2s;
-        &:hover:not(#user-account-tab) {
-            color: $name-color;
-        }
     }
 }
